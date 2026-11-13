@@ -1,0 +1,50 @@
+# Secrets & local hardware configs (keep *.example.* tracked)
+**/include/config.h
+**/secrets.h
+.env
+*.local.json
+
+# PlatformIO / Arduino / C++ build artifacts
+.pio/
+.vscode/
+build/
+*.bin
+*.elf
+*.map
+*.o
+*.d
+
+# Python & ML artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.pytest_cache/
+
+# Large datasets & trained binary weights (store on Google Drive)
+ml/data/raw/
+ml/data/processed/
+ml/models/
+*.tflite
+*.h5
+*.keras
+*.npy
+*.npz
+ml/*.csv
+!ml/roi.json
+
+# Ignore raw captured images unless explicitly placed in docs/evidence or coreiot/screenshots
+*.png
+*.jpg
+*.jpeg
+!docs/**/*.png
+!docs/**/*.jpg
+!docs/**/*.jpeg
+!coreiot/screenshots/**/*.png
+!coreiot/screenshots/**/*.jpg
+!coreiot/screenshots/**/*.jpeg
+
+# OS & Editor
+.DS_Store
+Thumbs.db
