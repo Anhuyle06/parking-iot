@@ -1,0 +1,36 @@
+{
+  "_template_note": "File mẫu cấu trúc RuleChain 'Parking Logic'. Người 3 tạo RuleChain trên app.coreiot.io theo coreiot/README.md rồi Export JSON ghi đè file này.",
+  "ruleChain": {
+    "name": "Parking Logic",
+    "type": "CORE",
+    "debugMode": true
+  },
+  "plannedFlows": [
+    {
+      "name": "Đỗ sai vị trí",
+      "source": "Message type switch (Post telemetry)",
+      "filter": "msg.event === 'wrong_parking'",
+      "action": "Create alarm WRONG_PARKING (Warning) + Clear khi nhận event === 'violation_cleared'"
+    },
+    {
+      "name": "Vi phạm kéo dài (> 2 phút)",
+      "source": "Post telemetry",
+      "action": "Lưu server attribute slotN_wrong_since; nếu vẫn sai > 120s -> nâng alarm lên Critical + RPC bật còi"
+    },
+    {
+      "name": "Bãi đầy -> đóng barrier",
+      "source": "Script filter msg.free_slots === 0",
+      "action": "RPC call request setBarrier {\"state\":\"close\"} + Alarm PARKING_FULL; ngược lại Clear + mở barrier"
+    },
+    {
+      "name": "Đỗ chắn lối đi",
+      "source": "Script filter msg.violation_type === 'vung_cam'",
+      "action": "Create alarm NO_PARKING_ZONE (Major)"
+    },
+    {
+      "name": "Mất kết nối",
+      "source": "Inactivity Event / Activity Event (timeout 60s)",
+      "action": "Create alarm EDGE_OFFLINE / Clear alarm"
+    }
+  ]
+}

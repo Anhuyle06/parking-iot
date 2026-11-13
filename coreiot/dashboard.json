@@ -1,0 +1,46 @@
+{
+  "_template_note": "File mẫu đặc tả Dashboard CoreIOT. Người 3 tùy biến từ template trên app.coreiot.io rồi Export JSON ghi đè file này.",
+  "title": "Smart Parking Edge AI - Dashboard",
+  "deviceProfile": "ParkingEdgeCam",
+  "deviceName": "parking-edge-01",
+  "widgets": [
+    {
+      "name": "Card Còn X/4 chỗ & Vi phạm",
+      "keys": ["free_slots", "violations"],
+      "behavior": "Đổi màu cảnh báo khi free_slots === 0 hoặc violations > 0"
+    },
+    {
+      "name": "Sơ đồ bãi (Image map / HTML card)",
+      "keys": ["slot1", "slot2", "slot3", "slot4", "nopark_zone"],
+      "behavior": "Marker 4 ô + vùng cấm: xanh trống (0), đỏ đỗ đúng (1), vàng nhấp nháy sai vị trí (2)"
+    },
+    {
+      "name": "Bảng vi phạm",
+      "keys": ["event", "event_slot", "violation_type", "duration_s", "last_violation_img"],
+      "behavior": "Hiển thị lịch sử sự kiện vi phạm theo thời gian"
+    },
+    {
+      "name": "Biểu đồ thời gian",
+      "keys": ["free_slots", "violations"]
+    },
+    {
+      "name": "Điều khiển RPC",
+      "rpcs": [
+        { "widget": "Switch Barrier", "getMethod": "getBarrier", "setMethod": "setBarrier", "params": "{\"state\":\"open\"|\"close\"}" },
+        { "widget": "Auto/Manual Mode", "setMethod": "setMode", "params": "{\"mode\":\"auto\"|\"manual\"}" },
+        { "widget": "Chụp ngay", "setMethod": "captureNow" },
+        { "widget": "Xác nhận tắt còi", "setMethod": "ackViolation", "params": "{\"slot\":1..4}" },
+        { "widget": "Đặt màu đèn ô", "setMethod": "setSlotLed", "params": "{\"slot\":2,\"color\":\"yellow\"|\"auto\"}" },
+        { "widget": "Khởi động lại", "setMethod": "reboot" }
+      ]
+    },
+    {
+      "name": "Chỉnh tham số Shared Attributes",
+      "keys": ["conf_min", "wrong_confirm_s", "nopark_confirm_s"]
+    },
+    {
+      "name": "Chẩn đoán & Alarm",
+      "keys": ["infer_ms", "frame_ms", "pkt_loss", "heap_free", "fw_version", "model_version"]
+    }
+  ]
+}
